@@ -37,7 +37,8 @@ setor VARCHAR(100) NOT NULL,
 cargo VARCHAR(100) NOT NULL CHECK(length(cargo)>4),
 data_nascimento DATE,
 cpf VARCHAR(11) UNIQUE NOT NULL,
-email VARCHAR(100) UNIQUE NOT NULL
+email VARCHAR(100) UNIQUE NOT NULL,
+senha VARCHAR(30) NOT NULL CHECK(length(senha)>7)
 );
 
 
@@ -77,9 +78,9 @@ cupom VARCHAR(25),
 total DECIMAL(10,2) NOT NULL,
 data_hora DATETIME,
 id_cliente INTEGER,
-id_endereco_entrega INTEGER,
+id_endereco INTEGER,
 FOREIGN KEY (id_cliente) REFERENCES cliente(id),
-FOREIGN KEY (id_endereco_entrega) REFERENCES endereco(id)
+FOREIGN KEY (id_endereco) REFERENCES endereco(id)
 );
 
 
@@ -99,6 +100,7 @@ metodo VARCHAR(20) NOT NULL,
 status_pagamento VARCHAR(30) NOT NULL,
 data_pagamento DATE,
 status_entrega VARCHAR(40) NOT NULL,
+valor DECIMAL(10,2) NOT NULL,
 id_pedido INT,
 FOREIGN KEY (id_pedido) REFERENCES pedido(id)
 );
@@ -108,8 +110,8 @@ CREATE TABLE IF NOT EXISTS estoque(
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 tipo VARCHAR(100) CHECK(length(tipo)>3),
 quantidade INT CHECK(quantidade > 0),
-data_entrada DATE,
-data_saida DATE,
+data_entrada DATE NOT NULL,
+data_validade DATE NOT NULL,
 id_produto INT,
 id_funcionario INT,
 FOREIGN KEY (id_produto) REFERENCES produto(id),
@@ -120,5 +122,7 @@ FOREIGN KEY (id_funcionario) REFERENCES funcionario(id)
 CREATE TABLE IF NOT EXISTS avaliacao (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 comentario VARCHAR(300),
-estrelas DECIMAL(2,1)
+estrelas DECIMAL(2,1),
+id_produto INT,
+FOREIGN KEY (id_produto) REFERENCES produto(id)
 );

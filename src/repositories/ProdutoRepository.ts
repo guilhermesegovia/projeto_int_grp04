@@ -4,7 +4,7 @@ import { Produto } from '../models/Produto';
 export class ProdutoRepository {
     salvar(p: Produto): Produto {
         const resultado = db
-            .prepare('INSERT INTO produtos (nome_produto, composicao, indicacao, beneficios, advertencias, modo_uso, lote, validade, descricao, finalidade, valor, id_categoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+            .prepare('INSERT INTO produto (nome_produto, composicao, indicacao, beneficios, advertencias, modo_uso, lote, validade, descricao, finalidade, valor, id_categoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
             .run(p.nome_produto, p.composicao, p.indicacao, p.beneficios, p.advertencias, p.modo_uso, p.lote, p.validade.toISOString(), p.descricao, p.finalidade, p.valor, p.id_categoria);
 
             return { 
@@ -26,32 +26,33 @@ export class ProdutoRepository {
 
     listarProdutos(): Produto[] {
         return db
-        .prepare('SELECT * FROM produtos').all() as Produto[];
+        .prepare('SELECT * FROM produto').all() as Produto[];
             }
 
     buscarPorId(id: number): Produto | null {
         return db
-        .prepare('SELECT * FROM produtos WHERE id = ?').get(id) as Produto ?? null;
+        .prepare('SELECT * FROM produto WHERE id = ?').get(id) as Produto ?? null;
     }
 
     buscarPorNome(nome: string): Produto[] {
         const resultado = db
-        .prepare ('SELECT * FROM produtos WHERE nome_produto LIKE ?').all(`%${nome}%`) as Produto[];
+        .prepare ('SELECT * FROM produto WHERE nome_produto LIKE ?').all(`%${nome}%`) as Produto[];
             return resultado.length === 0 ? [] : resultado;
     }
 
     AtualizarProduto(id: number, p: Produto): Produto | null {
         const resultado = db
-        .prepare ('UPDATE produtos SET nome_produto = ?, composicao = ?, indicacao = ?, beneficios = ?, advertencias = ?, modo_uso = ?, lote = ?, validade = ?, descricao = ?, finalidade = ?, valor = ?, id_categoria = ? WHERE id = ?')
+        .prepare ('UPDATE produto SET nome_produto = ?, composicao = ?, indicacao = ?, beneficios = ?, advertencias = ?, modo_uso = ?, lote = ?, validade = ?, descricao = ?, finalidade = ?, valor = ?, id_categoria = ? WHERE id = ?')
             .run(p.nome_produto, p.composicao, p.indicacao, p.beneficios, p.advertencias, p.modo_uso, p.lote, p.validade.toISOString(), p.descricao, p.finalidade, p.valor, p.id_categoria, id);
 
+    if (resultado.changes === 0) return null;
     return this.buscarPorId(id);
 }
     DeletarProduto(id: number): boolean {
         const resultado = db
-        .prepare('DELETE FROM produtos WHERE id = ?')
+        .prepare('DELETE FROM produto WHERE id = ?')
         .run(id);
-            return true;
+            return resultado.changes > 0;
     }
 }
 

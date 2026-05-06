@@ -1,4 +1,5 @@
 import express from "express";
+
 import { AvaliacaoController } from "./controller/AvaliacaoController";
 import { CarrinhoController } from "./controller/CarrinhoController";
 import { CategoriaController } from "./controller/CategoriaController";
@@ -24,7 +25,6 @@ FuncionarioController();
 PagamentoController();
 PedidoController();
 ProdutoController();
-
 
 app.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000");

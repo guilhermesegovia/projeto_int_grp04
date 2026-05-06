@@ -4,8 +4,8 @@ import { Endereco } from '../models/Endereco';
 export class EnderecoRepository {
     salvarEndereco(e: Endereco): Endereco {
         const resultado = db
-        .prepare('INSERT INTO enderecos (rua, numero, complemento, bairro, cidade, estado, cep) VALUES (?, ?, ?, ?, ?, ?, ?)')
-        .run(e.rua, e.numero, e.complemento, e.bairro, e.cidade, e.estado, e.cep);
+        .prepare('INSERT INTO endereco (rua, numero, complemento, bairro, cidade, estado, cep, id_cliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+        .run(e.rua, e.numero, e.complemento, e.bairro, e.cidade, e.estado, e.cep, e.id_cliente);
 
         return {
             id: Number(resultado.lastInsertRowid),
@@ -22,26 +22,27 @@ export class EnderecoRepository {
 
     listarEnderecos(): Endereco[] {
         return db
-        .prepare('SELECT * FROM enderecos').all() as Endereco[];
+        .prepare('SELECT * FROM endereco').all() as Endereco[];
     }
 
     buscarPorId(id: number): Endereco | null {
         return db
-        .prepare('SELECT * FROM enderecos WHERE id = ?').get(id) as Endereco ?? null;
+        .prepare('SELECT * FROM endereco WHERE id = ?').get(id) as Endereco ?? null;
     }       
 
     atualizarEndereco(id: number, e: Endereco): Endereco | null {
         const resultado = db
-        .prepare('UPDATE enderecos SET rua = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, cep = ? WHERE id = ?')
-        .run(e.rua, e.numero, e.complemento, e.bairro, e.cidade, e.estado, e.cep, id);
+        .prepare('UPDATE endereco SET rua = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, cep = ?, id_cliente = ? WHERE id = ?')
+        .run(e.rua, e.numero, e.complemento, e.bairro, e.cidade, e.estado, e.cep, e.id_cliente, id);
 
+        if (resultado.changes === 0) return null;
         return this.buscarPorId(id);
     }
 
     deletarEndereco(id: number): boolean {
         const resultado = db
-        .prepare('DELETE FROM enderecos WHERE id = ?')
+        .prepare('DELETE FROM endereco WHERE id = ?')
         .run(id);
-            return true;
+            return resultado.changes > 0;
     }
 }

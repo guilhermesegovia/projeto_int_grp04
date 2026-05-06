@@ -3,7 +3,7 @@ export interface Estoque {
     tipo: string;
     quantidade: number;
     data_entrada: Date;
-    data_saida: Date;
+    data_validade: Date | null;
     id_produto: number;
     id_funcionario: number;
 }

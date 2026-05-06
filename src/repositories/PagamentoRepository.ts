@@ -5,7 +5,7 @@ export class PagamentoRepository {
     RegistrarPagamento(p: Pagamento): Pagamento {
         const resultado = db
                 .prepare('INSERT INTO pagamento (metodo, status_pagamento, data_pagamento, status_entrega, valor, id_pedido) VALUES (?, ?, ?, ?, ?, ?)')
-                .run(p.metodo, p.status_pagamento, p.data_pagamento, p.status_entrega, p.valor, p.id_pedido);
+                .run(p.metodo, p.status_pagamento, p.data_pagamento.toISOString(), p.status_entrega, p.valor, p.id_pedido);
         return {
             id: Number(resultado.lastInsertRowid),
             metodo: p.metodo,
@@ -26,7 +26,8 @@ export class PagamentoRepository {
         return resultado.length > 0 ? resultado[0] : null;
     }
 
-    AtualizarStatusPagamento(id: number, status_pagamento: string): void {
-        db.prepare('UPDATE pagamento SET status_pagamento = ? WHERE id = ?').run(status_pagamento, id);
+    AtualizarStatusPagamento(id: number, status_pagamento: string): boolean {
+        const resultado = db.prepare('UPDATE pagamento SET status_pagamento = ? WHERE id = ?').run(status_pagamento, id);
+        return resultado.changes > 0;
     }
 }

@@ -4,7 +4,7 @@ import { Cliente } from '../models/Cliente';
 export class ClienteRepository {
     salvarCliente(c: Cliente): Cliente {
         const resultado = db
-        .prepare('INSERT INTO clientes (nome, telefone, cpf, email, senha, data_nascimento) VALUES (?, ?, ?, ?, ?, ?)')
+        .prepare('INSERT INTO cliente (nome, telefone, cpf, email, senha, data_nascimento) VALUES (?, ?, ?, ?, ?, ?)')
         .run(c.nome, c.telefone, c.cpf, c.email, c.senha, c.data_nascimento.toISOString());
 
         return {
@@ -20,33 +20,34 @@ export class ClienteRepository {
 
     listarClientes(): Cliente[] {
         return db
-        .prepare('SELECT * FROM clientes').all() as Cliente[];
+        .prepare('SELECT * FROM cliente').all() as Cliente[];
     }
 
     buscarPorId(id: number): Cliente | null {
         return db
-        .prepare('SELECT * FROM clientes WHERE id = ?').get(id) as Cliente ?? null;
+        .prepare('SELECT * FROM cliente WHERE id = ?').get(id) as Cliente ?? null;
     }
 
     buscarPorNome(nome: string): Cliente[] {
         const resultado = db
-        .prepare('SELECT * FROM clientes WHERE nome LIKE ?').all(`%${nome}%`) as Cliente[];
+        .prepare('SELECT * FROM cliente WHERE nome LIKE ?').all(`%${nome}%`) as Cliente[];
             return resultado.length === 0 ? [] : resultado;
     }
 
     atualizarCliente(id: number, c: Cliente): Cliente | null {
         const resultado = db
-        .prepare('UPDATE clientes SET nome = ?, telefone = ?, cpf = ?, email = ?, senha = ?, data_nascimento = ? WHERE id = ?')
+        .prepare('UPDATE cliente SET nome = ?, telefone = ?, cpf = ?, email = ?, senha = ?, data_nascimento = ? WHERE id = ?')
         .run(c.nome, c.telefone, c.cpf, c.email, c.senha, c.data_nascimento.toISOString(), id);
 
+        if (resultado.changes === 0) return null;
         return this.buscarPorId(id);
 }
 
     deletarCliente(id: number): boolean {
         const resultado = db
-        .prepare('DELETE FROM clientes WHERE id = ?')
+        .prepare('DELETE FROM cliente WHERE id = ?')
         .run(id);
-            return true;
+            return resultado.changes > 0;
     }    
 
 }

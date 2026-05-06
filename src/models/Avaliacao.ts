@@ -1,5 +1,6 @@
 export interface Avaliacao {
     id?: number;
     comentario: string;
-    estrelas: string
+    estrelas: number;
+    id_produto?: number;
 }

@@ -1,0 +1,442 @@
+# --- AVALIÇÕES ---
+
+### Criar avaliação
+POST http://localhost:3000/avaliacoes
+Content-type: application/json
+
+{
+    "comentario": "Ótimo produto, super recomendo!",
+    "estrelas": 5,
+    "id_produto": 1
+}
+
+###
+
+### Listar avaliações
+GET http://localhost:3000/avaliacoes
+
+###
+
+### Deletar avaliação
+DELETE http://localhost:3000/avaliacoes/1
+
+###
+
+# --- CARRINHO ---
+
+### Adicionar item ao carrinho
+POST http://localhost:3000/carrinho
+Content-type: application/json
+
+{
+    "id_cliente": 1,
+    "id_produto": 1,
+    "quantidade": 2
+}
+
+###
+
+### Listar itens do carrinho
+GET http://localhost:3000/carrinho/1
+
+###
+
+### Remover item do carrinho
+DELETE http://localhost:3000/carrinho/1/1
+
+###
+
+### Remover todos os itens do carrinho
+DELETE http://localhost:3000/carrinho/1
+
+###
+
+### Atualizar quantidade de um item no carrinho
+PUT http://localhost:3000/carrinho/1/1
+Content-type: application/json
+
+{
+    "id_produto": 1,
+    "id_cliente": 1,
+    "quantidade": 3
+}
+
+### --- CATEGORIA ---
+
+### Criar categoria
+POST http://localhost:3000/categorias
+Content-type: application/json
+
+{
+    "nome": "Pomada Cicatrizante",
+    "descricao": "Produtos para cicatrização de feridas"
+}
+
+###
+
+### Listar categorias
+GET http://localhost:3000/categorias
+
+###
+
+### Buscar categoria por nome
+GET http://localhost:3000/categorias?nome=Pomada%20Cicatrizante
+
+###
+
+### Buscar categoria por ID
+GET http://localhost:3000/categorias/1
+
+###
+
+### Atualizar categoria
+PUT http://localhost:3000/categorias/1
+Content-type: application/json
+
+{
+    "nome": "Pomada Cicatrizante",
+    "descricao": "Produtos para cicatrização de feridas, incluindo pomadas e sprays"
+}
+
+###
+
+# --- CLIENTE ---
+
+### Criar cliente
+POST http://localhost:3000/clientes
+Content-type: application/json
+
+{
+    "nome": "Guilherme",
+    "telefone": "11987654321",
+    "cpf": "12345678900",
+    "email": "guilherme@example.com",
+    "senha": "senha123",
+    "data_nascimento": "1990-01-01"
+}
+
+###
+
+### Listar clientes
+GET http://localhost:3000/clientes
+
+###
+
+### Buscar cliente por ID
+GET http://localhost:3000/clientes/1
+
+###
+
+### Buscar por nome
+GET http://localhost:3000/clientes?nome=Guilherme
+
+###
+
+### Atualizar cliente
+PUT http://localhost:3000/clientes/1
+Content-type: application/json
+
+{
+    "nome": "Guilherme Silva",
+    "telefone": "11987654321",
+    "cpf": "12345678900",
+    "email": "guilherme.silva@example.com",
+    "senha": "senha123",
+    "data_nascimento": "1990-01-01"
+}
+
+###
+
+### Deletar cliente
+DELETE http://localhost:3000/clientes/1
+
+###
+
+# --- ENDEREÇO ---
+
+### Criar endereço
+POST http://localhost:3000/enderecos
+Content-type: application/json
+
+{
+    "id_cliente": 1,
+    "rua": "Rua das Flores",
+    "numero": "123",
+    "complemento": "Apto 45",
+    "bairro": "Jardim Primavera",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "11446001"
+}
+
+###
+
+### Listar endereços
+GET http://localhost:3000/enderecos
+
+###
+
+### Buscar endereço por ID
+GET http://localhost:3000/enderecos/1
+
+###
+
+### Atualizar endereço
+PUT http://localhost:3000/enderecos/1
+Content-type: application/json
+
+{
+    "id_cliente": 1,
+    "rua": "Rua das Flores",
+    "numero": "123",
+    "complemento": "Apto 45",
+    "bairro": "Jardim Primavera",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "11446002"
+}
+
+###
+
+### Deletar endereço
+DELETE http://localhost:3000/enderecos/1
+
+###
+
+# --- ESTOQUE ---
+
+### Criar estoque
+POST http://localhost:3000/estoques
+Content-type: application/json
+
+{
+    "tipo": "Pomada",
+    "quantidade": 100,
+    "data_entrada": "2025-06-01",
+    "data_validade": "2026-06-01",
+    "id_produto": 1,
+    "id_funcionario": 1
+}
+
+###
+
+### Listar estoques 
+GET http://localhost:3000/estoques
+
+###
+
+### Buscar estoque por ID
+GET http://localhost:3000/estoques/1
+
+###
+
+### Buscar por produto
+GET http://localhost:3000/estoques?produto=1
+
+###
+
+### Registrar Movimentação
+POST http://localhost:3000/estoques/movimentacao
+Content-type: application/json
+
+{
+    "id_estoque": 1,
+    "tipo_movimentacao": "saida",
+    "quantidade": 10,
+    "data_movimentacao": "2025-06-15"
+}
+
+###
+
+### Listar movimentações de um estoque
+GET http://localhost:3000/estoques/1/movimentacoes
+
+###
+
+### Verificar estoque baixo
+GET http://localhost:3000/estoques/baixo
+
+###
+
+# --- FUNCIONÁRIO ---
+
+### Criar funcionário
+POST http://localhost:3000/funcionarios
+Content-type: application/json
+
+{
+    "nome": "Maria",
+    "setor": "Vendas",
+    "cargo": "Vendedora",
+    "data_nascimento": "1995-05-10",
+    "cpf": "98765432100",
+    "email": "maria@example.com",
+    "senha": "senha456"
+}
+
+###
+
+### Listar funcionários
+GET http://localhost:3000/funcionarios
+
+###
+
+### Buscar Por nome
+GET http://localhost:3000/funcionarios?nome=Maria
+
+###
+
+### Atualizar funcionário
+PUT http://localhost:3000/funcionarios/1
+Content-type: application/json
+{
+    "nome": "Maria Silva",
+    "setor": "Vendas",
+    "cargo": "Vendedora",
+    "data_nascimento": "1995-05-10",
+    "cpf": "98765432100",
+    "email": "maria.silva@example.com"
+}
+
+###
+
+### Deletar funcionário
+DELETE http://localhost:3000/funcionarios/1
+
+###
+
+# --- PAGAMENTO ---
+
+### Criar pagamento
+POST http://localhost:3000/pagamentos
+Content-type: application/json
+
+{
+    "metodo": "Cartão de Crédito",
+    "status_pagamento": "Pendente",
+    "data_pagamento": null,
+    "status_entrega": "Pendente",
+    "valor": 150.00,
+    "id_pedido": 1
+}
+
+###
+
+### Listar pagamentos
+GET http://localhost:3000/pagamentos
+
+###
+
+### Buscar pagamento por pedido
+GET http://localhost:3000/pagamentos?pedido=1
+
+###
+
+### Atualizar status de pagamento
+PUT http://localhost:3000/pagamentos/1
+Content-type: application/json
+
+{
+    "metodo": "Cartão de Crédito",
+    "status_pagamento": "Pago",
+    "data_pagamento": "2025-06-20",
+    "status_entrega": "Pendente",
+    "valor": 150.00,
+    "id_pedido": 1
+}
+
+# --- PEDIDO ---
+
+### Criar pedido
+POST http://localhost:3000/pedidos
+Content-type: application/json
+
+{
+    "frete": 20.00,
+    "cupom": null,
+    "total": 170.00,
+    "data_hora": "2025-06-20T14:30:00",
+    "id_cliente": 1,
+    "id_endereco": 1,
+    "id_pagamento": 1
+}
+
+### Adicionar item ao pedido
+POST http://localhost:3000/pedidos/1/itens
+Content-type: application/json
+
+{
+    "id_produto": 1,
+    "quantidade": 2,
+    "preco_unitario": 75.00
+}
+
+### Listar pedidos
+GET http://localhost:3000/pedidos
+
+### Buscar pedido por ID
+GET http://localhost:3000/pedidos/1
+
+### Buscar pedidos por cliente
+GET http://localhost:3000/pedidos?cliente=1
+
+### Listar itens de um pedido
+GET http://localhost:3000/pedidos/1/itens
+
+### Calcular total do pedido
+GET http://localhost:3000/pedidos/1/total
+
+### Deletar pedido
+DELETE http://localhost:3000/pedidos/1
+
+# --- PRODUTO ---
+
+### Criar produto
+POST http://localhost:3000/produtos
+Content-type: application/json
+
+{
+      "nome_produto": "Pomada Cicatrizante",
+      "composicao": "Base de vaselina, vitamina E",
+      "indicacao": "Para cicatrizes e feridas",
+      "beneficios": "Promove a cicatrização e hidratação da pele",
+      "advertencias": "Evitar o contato com os olhos",
+      "modo_uso": "Aplicar uma camada fina sobre a área afetada 2-3 vezes ao dia",
+      "lote": "Lote-001",
+      "validade": "2026-06-01",
+      "descricao": "Pomada para cicatrizes e feridas",
+      "finalidade": "Tratamento de cicatrizes",
+      "valor": 75.00,
+      "id_categoria": 1
+}
+
+### Listar produtos
+GET http://localhost:3000/produtos
+
+### Buscar produto por ID
+GET http://localhost:3000/produtos/1
+
+### Buscar produtos por nome
+GET http://localhost:3000/produtos?nome=Pomada%20Cicatrizante
+
+### Atualizar produto
+PUT http://localhost:3000/produtos/1
+Content-type: application/json
+
+{
+      "nome_produto": "Pomada Cicatrizante",
+      "composicao": "Base de vaselina, vitamina E",
+      "indicacao": "Para cicatrizes e feridas",
+      "beneficios": "Promove a cicatrização e hidratação da pele",
+      "advertencias": "Evitar o contato com os olhos",
+      "modo_uso": "Aplicar uma camada fina sobre a área afetada 2-3 vezes ao dia",
+      "lote": "Lote-001",
+      "validade": "2026-06-01",
+      "descricao": "Pomada para cicatrizes e feridas, agora com fórmula melhorada",
+      "finalidade": "Tratamento de cicatrizes e hidratação da pele",
+      "valor": 80.00,
+      "id_categoria": 1
+}
+
+### Deletar produto 
+DELETE http://localhost:3000/produtos/1

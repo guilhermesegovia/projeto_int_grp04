@@ -4,7 +4,7 @@ import { Categoria } from '../models/Categoria';
 export class CategoriaRepository {
     salvarCategoria(c: Categoria): Categoria {
         const resultado = db
-        .prepare('INSERT INTO categorias (nome, descricao) VALUES (?, ?)')
+        .prepare('INSERT INTO categoria (nome, descricao) VALUES (?, ?)')
         .run(c.nome, c.descricao);
 
         return {
@@ -16,25 +16,26 @@ export class CategoriaRepository {
 
     listarCategorias(): Categoria[] {
         return db
-        .prepare('SELECT * FROM categorias').all() as Categoria[];
+        .prepare('SELECT * FROM categoria').all() as Categoria[];
     }
 
     buscarPorId(id: number): Categoria | null {
         return db
-        .prepare('SELECT * FROM categorias WHERE id = ?').get(id) as Categoria ?? null;
+        .prepare('SELECT * FROM categoria WHERE id = ?').get(id) as Categoria ?? null;
     }
 
     buscarPorNome(nome: string): Categoria[] {
         const resultado = db
-        .prepare('SELECT * FROM categorias WHERE nome LIKE ?').all(`%${nome}%`) as Categoria[];
+        .prepare('SELECT * FROM categoria WHERE nome LIKE ?').all(`%${nome}%`) as Categoria[];
             return resultado.length === 0 ? [] : resultado;
     }
 
     atualizarCategoria(id: number, c: Categoria): Categoria | null {
         const resultado = db
-        .prepare('UPDATE categorias SET nome = ?, descricao = ? WHERE id = ?')
+        .prepare('UPDATE categoria SET nome = ?, descricao = ? WHERE id = ?')
         .run(c.nome, c.descricao, id);
 
+        if (resultado.changes === 0) return null;
         return this.buscarPorId(id);
 }
 
