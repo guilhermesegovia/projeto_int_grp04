@@ -53,8 +53,15 @@ calcularTotalDoPedido(id_pedido: number): number {
 }
 
 deletarPedido(id: number): boolean {
-    const resultado = db.prepare('DELETE FROM pedido WHERE id = ?')
-    .run(id);
-    return resultado.changes > 0;
+    const deletar = db.transaction((id_pedido: number) => {
+        db.prepare('DELETE FROM pagamento WHERE id_pedido = ?').run(id_pedido);
+        db.prepare('DELETE FROM item_pedido WHERE id_pedido = ?').run(id_pedido);
+
+        const resultado = db.prepare('DELETE FROM pedido WHERE id = ?')
+        .run(id_pedido);
+        return resultado.changes > 0;
+    });
+
+    return deletar(id);
 }
 }

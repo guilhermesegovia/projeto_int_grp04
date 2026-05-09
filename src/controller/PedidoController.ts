@@ -67,15 +67,20 @@ export function PedidoController() {
     res.json(repository.listarItensDoPedido(id_pedido));
   });
 
-  app.patch("/pedidos/:id_pedido/total", (req, res) => {
+  app.get("/pedidos/:id_pedido/total", (req, res) => {
     const id_pedido = parseInt(req.params.id_pedido);
     res.json({ total: repository.calcularTotalDoPedido(id_pedido) });
   });
 
   app.delete("/pedidos/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const deletado = repository.deletarPedido(id);
-    if (!deletado) return res.status(404).json({ erro: "Pedido nao encontrado" });
-    res.json({ mensagem: "Pedido deletado com sucesso" });
+    try {
+      const id = parseInt(req.params.id);
+      const deletado = repository.deletarPedido(id);
+      if (!deletado) return res.status(404).json({ erro: "Pedido nao encontrado" });
+      res.json({ mensagem: "Pedido deletado com sucesso" });
+    } catch (err) {
+      const mensagem = err instanceof Error ? err.message : "Erro interno";
+      res.status(400).json({ erro: mensagem });
+    }
   });
 }

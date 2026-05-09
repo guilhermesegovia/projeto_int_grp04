@@ -1,4 +1,5 @@
 import { app } from "../app";
+import { Request, Response } from "express";
 import { CarrinhoRepository } from "../repositories/CarrinhoRepository";
 
 export function CarrinhoController() {
@@ -25,21 +26,29 @@ export function CarrinhoController() {
     }
   });
 
-  app.put("/carrinho", (req, res) => {
+  function atualizarQuantidade(req: Request, res: Response) {
     try {
-      const { id_cliente, id_produto, quantidade } = req.body;
+      const id_cliente = Number(req.params.id_cliente ?? req.body.id_cliente);
+      const id_produto = Number(req.params.id_produto ?? req.body.id_produto);
+      const { quantidade } = req.body;
 
       if (!id_cliente) throw new Error("Cliente e obrigatorio");
       if (!id_produto) throw new Error("Produto e obrigatorio");
-      if (quantidade === undefined || quantidade < 0) throw new Error("Quantidade invalida");
+      if (quantidade === undefined || quantidade <= 0) throw new Error("Quantidade invalida");
 
-      repository.AtualizarQuantidade(id_cliente, id_produto, quantidade);
+      const atualizado = repository.AtualizarQuantidade(id_cliente, id_produto, quantidade);
+      if (!atualizado) return res.status(404).json({ erro: "Item nao encontrado no carrinho" });
+
       res.json({ mensagem: "Quantidade atualizada com sucesso" });
     } catch (err) {
       const mensagem = err instanceof Error ? err.message : "Erro interno";
       res.status(400).json({ erro: mensagem });
     }
-  });
+  }
+
+  app.put("/carrinho", atualizarQuantidade);
+
+  app.put("/carrinho/:id_cliente/:id_produto", atualizarQuantidade);
 
   app.delete("/carrinho/:id_cliente/:id_produto", (req, res) => {
     const id_cliente = parseInt(req.params.id_cliente);

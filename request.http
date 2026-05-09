@@ -5,9 +5,9 @@ POST http://localhost:3000/avaliacoes
 Content-type: application/json
 
 {
-    "comentario": "Ótimo produto, super recomendo!",
-    "estrelas": 5,
-    "id_produto": 1
+    "comentario": "Produto excelente!",
+    "estrelas": 4.5,
+    "id_produto": 2
 }
 
 ###
@@ -29,20 +29,20 @@ POST http://localhost:3000/carrinho
 Content-type: application/json
 
 {
-    "id_cliente": 1,
-    "id_produto": 1,
-    "quantidade": 2
+    "id_cliente": 2,
+    "id_produto": 2,
+    "quantidade": 100
 }
 
 ###
 
 ### Listar itens do carrinho
-GET http://localhost:3000/carrinho/1
+GET http://localhost:3000/carrinho/2
 
 ###
 
 ### Remover item do carrinho
-DELETE http://localhost:3000/carrinho/1/1
+DELETE http://localhost:3000/carrinho/1/2
 
 ###
 
@@ -52,12 +52,12 @@ DELETE http://localhost:3000/carrinho/1
 ###
 
 ### Atualizar quantidade de um item no carrinho
-PUT http://localhost:3000/carrinho/1/1
+PUT http://localhost:3000/carrinho/2/1
 Content-type: application/json
 
 {
-    "id_produto": 1,
-    "id_cliente": 1,
+    "id_produto": 2,
+    "id_cliente": 2,
     "quantidade": 3
 }
 
@@ -68,10 +68,9 @@ POST http://localhost:3000/categorias
 Content-type: application/json
 
 {
-    "nome": "Pomada Cicatrizante",
-    "descricao": "Produtos para cicatrização de feridas"
+    "nome": "Creme para pele",
+    "descricao": "Para a diminuição de manchas, hidratação e cuidados com a pele"
 }
-
 ###
 
 ### Listar categorias
@@ -85,8 +84,7 @@ GET http://localhost:3000/categorias?nome=Pomada%20Cicatrizante
 ###
 
 ### Buscar categoria por ID
-GET http://localhost:3000/categorias/1
-
+GET http://localhost:3000/categorias/2
 ###
 
 ### Atualizar categoria
@@ -108,7 +106,7 @@ Content-type: application/json
 
 {
     "nome": "Guilherme",
-    "telefone": "11987654321",
+    "telefone": "11954654300",
     "cpf": "12345678900",
     "email": "guilherme@example.com",
     "senha": "senha123",
@@ -159,14 +157,14 @@ POST http://localhost:3000/enderecos
 Content-type: application/json
 
 {
-    "id_cliente": 1,
+    "id_cliente": 3,
     "rua": "Rua das Flores",
     "numero": "123",
     "complemento": "Apto 45",
-    "bairro": "Jardim Primavera",
+    "bairro": "Jardim Outono",
     "cidade": "São Paulo",
     "estado": "SP",
-    "cep": "11446001"
+    "cep": "11446002"
 }
 
 ###
@@ -186,7 +184,7 @@ PUT http://localhost:3000/enderecos/1
 Content-type: application/json
 
 {
-    "id_cliente": 1,
+    "id_cliente": 2,
     "rua": "Rua das Flores",
     "numero": "123",
     "complemento": "Apto 45",
@@ -210,12 +208,12 @@ POST http://localhost:3000/estoques
 Content-type: application/json
 
 {
-    "tipo": "Pomada",
+    "tipo": "Creme",
     "quantidade": 100,
     "data_entrada": "2025-06-01",
     "data_validade": "2026-06-01",
-    "id_produto": 1,
-    "id_funcionario": 1
+    "id_produto": 2,
+    "id_funcionario": 2
 }
 
 ###
@@ -240,6 +238,9 @@ POST http://localhost:3000/estoques/movimentacao
 Content-type: application/json
 
 {
+    "id_funcionario": 2,
+    "tipo": "Creme",
+    "id_produto": 2,
     "id_estoque": 1,
     "tipo_movimentacao": "saida",
     "quantidade": 10,
@@ -265,12 +266,12 @@ POST http://localhost:3000/funcionarios
 Content-type: application/json
 
 {
-    "nome": "Maria",
-    "setor": "Vendas",
-    "cargo": "Vendedora",
+    "nome": "Claudio",
+    "setor": "Estoque",
+    "cargo": "Chefe de Estoque",
     "data_nascimento": "1995-05-10",
-    "cpf": "98765432100",
-    "email": "maria@example.com",
+    "cpf": "98765432101",
+    "email": "claudio@example.com",
     "senha": "senha456"
 }
 
@@ -289,13 +290,15 @@ GET http://localhost:3000/funcionarios?nome=Maria
 ### Atualizar funcionário
 PUT http://localhost:3000/funcionarios/1
 Content-type: application/json
+
 {
     "nome": "Maria Silva",
     "setor": "Vendas",
-    "cargo": "Vendedora",
+    "cargo": "Gerente de Vendas",
     "data_nascimento": "1995-05-10",
     "cpf": "98765432100",
-    "email": "maria.silva@example.com"
+    "email": "maria.silva@example.com",
+    "senha": "senha456"
 }
 
 ###
@@ -317,7 +320,7 @@ Content-type: application/json
     "data_pagamento": null,
     "status_entrega": "Pendente",
     "valor": 150.00,
-    "id_pedido": 1
+    "id_pedido": 3
 }
 
 ###
@@ -342,7 +345,7 @@ Content-type: application/json
     "data_pagamento": "2025-06-20",
     "status_entrega": "Pendente",
     "valor": 150.00,
-    "id_pedido": 1
+    "id_pedido": 3
 }
 
 # --- PEDIDO ---
@@ -356,8 +359,8 @@ Content-type: application/json
     "cupom": null,
     "total": 170.00,
     "data_hora": "2025-06-20T14:30:00",
-    "id_cliente": 1,
-    "id_endereco": 1,
+    "id_cliente": 2,
+    "id_endereco": 2,
     "id_pagamento": 1
 }
 
@@ -366,7 +369,7 @@ POST http://localhost:3000/pedidos/1/itens
 Content-type: application/json
 
 {
-    "id_produto": 1,
+    "id_produto": 2,
     "quantidade": 2,
     "preco_unitario": 75.00
 }
@@ -387,7 +390,7 @@ GET http://localhost:3000/pedidos/1/itens
 GET http://localhost:3000/pedidos/1/total
 
 ### Deletar pedido
-DELETE http://localhost:3000/pedidos/1
+DELETE http://localhost:3000/pedidos/2
 
 # --- PRODUTO ---
 
@@ -396,9 +399,9 @@ POST http://localhost:3000/produtos
 Content-type: application/json
 
 {
-      "nome_produto": "Pomada Cicatrizante",
+      "nome_produto": " Creme Facial Hidratante",
       "composicao": "Base de vaselina, vitamina E",
-      "indicacao": "Para cicatrizes e feridas",
+      "indicacao": "Para Hidratação e cuidados com a pele",
       "beneficios": "Promove a cicatrização e hidratação da pele",
       "advertencias": "Evitar o contato com os olhos",
       "modo_uso": "Aplicar uma camada fina sobre a área afetada 2-3 vezes ao dia",
@@ -407,7 +410,7 @@ Content-type: application/json
       "descricao": "Pomada para cicatrizes e feridas",
       "finalidade": "Tratamento de cicatrizes",
       "valor": 75.00,
-      "id_categoria": 1
+      "id_categoria": 2
 }
 
 ### Listar produtos
@@ -417,7 +420,7 @@ GET http://localhost:3000/produtos
 GET http://localhost:3000/produtos/1
 
 ### Buscar produtos por nome
-GET http://localhost:3000/produtos?nome=Pomada%20Cicatrizante
+GET http://localhost:3000/produtos?nome=Creme%20Facial%20Hidratante
 
 ### Atualizar produto
 PUT http://localhost:3000/produtos/1

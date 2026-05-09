@@ -5,7 +5,19 @@ export function EstoqueController() {
   const repository = new EstoqueRepository();
 
   app.get("/estoques", (req, res) => {
+    const id_produto = Number(req.query.produto);
+    if (id_produto) return res.json(repository.buscarPorProduto(id_produto));
+
     res.json(repository.listarEstoques());
+  });
+
+  app.get("/estoques/baixo", (req, res) => {
+    const id_produto = Number(req.query.produto ?? req.query.id_produto);
+    const quantidade_minima = Number(req.query.quantidade_minima ?? 1);
+
+    if (!id_produto) return res.status(400).json({ erro: "Produto e obrigatorio" });
+
+    res.json({ estoque_baixo: repository.VerificarEstoqueBaixo(id_produto, quantidade_minima) });
   });
 
   app.get("/estoques/:id", (req, res) => {
@@ -33,7 +45,7 @@ export function EstoqueController() {
         tipo,
         quantidade,
         data_entrada: data_entrada ? new Date(data_entrada) : new Date(),
-        data_validade: data_validade ? new Date(data_validade) : null,
+        data_validade: data_validade ? new Date(data_validade) : new Date(),
         id_produto,
         id_funcionario
       });
@@ -45,7 +57,7 @@ export function EstoqueController() {
     }
   });
 
-  app.post("/estoques/movimentacoes", (req, res) => {
+  app.post(["/estoques/movimentacoes", "/estoques/movimentacao"], (req, res) => {
     try {
       const { id_produto, id_funcionario, tipo, quantidade } = req.body;
 
@@ -63,6 +75,11 @@ export function EstoqueController() {
   });
 
   app.get("/produtos/:id_produto/movimentacoes", (req, res) => {
+    const id_produto = parseInt(req.params.id_produto);
+    res.json(repository.ListarMovimentacoes(id_produto));
+  });
+
+  app.get("/estoques/:id_produto/movimentacoes", (req, res) => {
     const id_produto = parseInt(req.params.id_produto);
     res.json(repository.ListarMovimentacoes(id_produto));
   });

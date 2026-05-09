@@ -42,8 +42,8 @@ export class EstoqueRepository {
         if (tipo !== 'entrada' && this.VerificarEstoqueBaixo(id_produto, quantidade)) {
             throw new Error("Estoque insuficiente");
         }
-        db.prepare('INSERT INTO estoque (tipo, quantidade, data_entrada, id_produto, id_funcionario) VALUES (?, ?, ?, ?, ?)')
-            .run(tipo, quantidade, data.toISOString(), id_produto, id_funcionario);
+        db.prepare('INSERT INTO estoque (tipo, quantidade, data_entrada, data_validade, id_produto, id_funcionario) VALUES (?, ?, ?, ?, ?, ?)')
+            .run(tipo, quantidade, data.toISOString(), data.toISOString(), id_produto, id_funcionario);
     }
 
     ListarMovimentacoes(id_produto: number): Estoque[] {
@@ -51,7 +51,7 @@ export class EstoqueRepository {
     }
 
     VerificarEstoqueBaixo(id_produto: number, quantidade_minima: number): boolean {
-        const estoqueAtual = db.prepare('SELECT SUM(CASE WHEN tipo = "entrada" THEN quantidade ELSE -quantidade END) AS total FROM estoque WHERE id_produto = ?').get(id_produto) as { total: number | null };
+        const estoqueAtual = db.prepare("SELECT SUM(CASE WHEN tipo = 'entrada' THEN quantidade ELSE -quantidade END) AS total FROM estoque WHERE id_produto = ?").get(id_produto) as { total: number | null };
         return (estoqueAtual.total ?? 0) < quantidade_minima;
     }
 

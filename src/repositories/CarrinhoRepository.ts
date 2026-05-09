@@ -25,8 +25,9 @@ export class CarrinhoRepository {
         ).run(id_cliente, id_produto);
     }
 
-    AtualizarQuantidade(id_cliente: number, id_produto: number, quantidade: number): void {
-        db.prepare('UPDATE carrinho SET quantidade = ? WHERE id_cliente = ? AND id_produto = ?').run(quantidade, id_cliente, id_produto);
+    AtualizarQuantidade(id_cliente: number, id_produto: number, quantidade: number): boolean {
+        const resultado = db.prepare('UPDATE carrinho SET quantidade = ? WHERE id_cliente = ? AND id_produto = ?').run(quantidade, id_cliente, id_produto);
+        return resultado.changes > 0;
     }
 
     Vercarrinho(id_cliente: number): Carrinho[] {
