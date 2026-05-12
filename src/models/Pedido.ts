@@ -5,5 +5,5 @@ export interface Pedido {
     total: number;
     data_hora: Date;
     id_cliente: number;
-    id_endereco: number;
+    id_endereco?: number | null;
 }

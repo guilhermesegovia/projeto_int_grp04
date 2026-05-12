@@ -4,6 +4,21 @@ import { ClienteRepository } from "../repositories/ClienteRepository";
 export function ClienteController() {
   const repository = new ClienteRepository();
 
+  app.post("/clientes/login", (req, res) => {
+    try {
+      const { email, senha } = req.body;
+      if (!email || !senha) throw new Error("Email e senha sao obrigatorios");
+      const cliente = repository.buscarPorEmail(email);
+      if (!cliente || cliente.senha !== senha) {
+        return res.status(401).json({ erro: "Credenciais invalidas" });
+      }
+      res.json(cliente);
+    } catch (err) {
+      const mensagem = err instanceof Error ? err.message : "Erro interno";
+      res.status(400).json({ erro: mensagem });
+    }
+  });
+
   app.get("/clientes", (req, res) => {
     const { nome } = req.query;
 

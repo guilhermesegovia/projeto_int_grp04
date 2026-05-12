@@ -126,3 +126,16 @@ estrelas DECIMAL(2,1),
 id_produto INT,
 FOREIGN KEY (id_produto) REFERENCES produto(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS mensagem (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+nome VARCHAR(100) NOT NULL,
+email VARCHAR(100) NOT NULL,
+mensagem TEXT NOT NULL,
+data_hora DATETIME NOT NULL,
+resposta TEXT,
+data_resposta DATETIME,
+id_cliente INTEGER,
+FOREIGN KEY (id_cliente) REFERENCES cliente(id)
+);

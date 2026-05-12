@@ -28,7 +28,6 @@ export function PedidoController() {
       if (frete === undefined) throw new Error("Frete e obrigatorio");
       if (total === undefined) throw new Error("Total e obrigatorio");
       if (!id_cliente) throw new Error("Cliente e obrigatorio");
-      if (!id_endereco) throw new Error("Endereco e obrigatorio");
 
       const pedido = repository.salvarPedido({
         frete,
@@ -36,7 +35,7 @@ export function PedidoController() {
         total,
         data_hora: data_hora ? new Date(data_hora) : new Date(),
         id_cliente,
-        id_endereco
+        id_endereco: id_endereco ?? null
       });
 
       res.status(201).json(pedido);

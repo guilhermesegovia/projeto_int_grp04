@@ -28,6 +28,11 @@ export class ClienteRepository {
         .prepare('SELECT * FROM cliente WHERE id = ?').get(id) as Cliente ?? null;
     }
 
+    buscarPorEmail(email: string): Cliente | null {
+        return db
+        .prepare('SELECT * FROM cliente WHERE email = ?').get(email) as Cliente ?? null;
+    }
+
     buscarPorNome(nome: string): Cliente[] {
         const resultado = db
         .prepare('SELECT * FROM cliente WHERE nome LIKE ?').all(`%${nome}%`) as Cliente[];
